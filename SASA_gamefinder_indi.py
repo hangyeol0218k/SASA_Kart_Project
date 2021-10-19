@@ -136,9 +136,9 @@ access_id = ID_res.json()["accessId"]
 
 gamelist = []
 year = 2021
-for month in range (10,11) :
-    for day in range(10,11) :
-        for hour in range(16,17) :
+for month in range (1,11) :
+    for day in range(1,endday(month,year)) :
+        for hour in range(0,24) :
             for min in range(0,60) :
 
                 # 매치 리스트 조회에 필요한 변수
@@ -168,10 +168,10 @@ for month in range (10,11) :
                         match_id=match
                         match_find_url = f"https://api.nexon.co.kr/kart/v1.0/matches/{match_id}"
                         match_find_res = requests.get(match_find_url, headers=headers)
-                        if match_find_res.json()["channelName"] == 'speedIndiCombine':
+                        if match_find_res.json()["channelName"] in['speedTeamFast', 'speedTeamCombine']:
                             if isSASAgame(match_find_res.json()):
                                 gamelist.append(match_id)
-                                print(match_id,'detected')
+                                #print(match_id,'detected')
                 except :
                     pass
     for game in gamelist :
