@@ -172,7 +172,7 @@ for dlist in [1023,1024,1025,1026,1027,1028,1029,1030,1031,1101] :
                     if match_find_res.json()["channelName"] =='speedIndiCombine':
                         if isprogame(match_find_res.json()):
                             print(match)
-                            gamelist.append(match_id)
+                            gamelist.appen d(match_id)
                             #print(match_id,'detected')
             except :
                 pass

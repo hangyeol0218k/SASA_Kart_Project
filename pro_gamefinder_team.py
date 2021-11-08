@@ -44,6 +44,9 @@ def isprogame(res):
                 if '/' in res['teams'][team]['players'][player]['characterName'] :
                     print(res['teams'][team]['players'][player]['characterName'])
                     cnt+=1
+                elif '"' in res['teams'][team]['players'][player]['characterName'] :
+                    print(res['teams'][team]['players'][player]['characterName'])
+                    cnt+=1
                 playercnt+=1
             except:
                 pass
@@ -131,10 +134,10 @@ access_id = ID_res.json()["accessId"]
 
 gamelist = []
 year = 2021
-for dlist in [1023,1024,1025,1026,1027,1028,1029,1030,1031,1101] :
+for dlist in [1108] :
     month = dlist/100
     day = dlist%100
-    for hour in range(0,24) :
+    for hour in range(11,14) :
         for min in range(0,60) :
 
             # 매치 리스트 조회에 필요한 변수
@@ -172,34 +175,34 @@ for dlist in [1023,1024,1025,1026,1027,1028,1029,1030,1031,1101] :
             except:
                 pass
 
-    for game in gamelist :
-        match_id=game
-        match_find_url = f"https://api.nexon.co.kr/kart/v1.0/matches/{match_id}"
-        match_find_res = requests.get(match_find_url, headers=headers)
-        print('\n'+track_name(match_find_res.json()['trackId']),str(match_id))
-        resulttable = PrettyTable(['Name', 'Kart', ' Rank ', ' Team ', 'Result'])
-        resultlist=[]
-        playercnt=0
-        for team in range(0,2) :
-            for player in range (0,4) :
-                try:
-                    resultlist.append([match_find_res.json()['teams'][team]["players"][player]["characterName"],
-                                       kart_name(match_find_res.json()['teams'][team]["players"][player]["kart"]),
-                                       rank(match_find_res.json()['teams'][team]["players"][player]["matchRank"]),
-                                       teamcolor(match_find_res.json()['teams'][team]["players"][player]["characterName"]), result(match_find_res.json()['teams'][team]["players"][player]["matchWin"])])
-                    playercnt+=1
-                except:
-                    pass
-        for i in range(0,playercnt) :
-            for j in range (i+1,playercnt):
-                if resultlist[i][2]>resultlist[j][2] :
-                    temp = resultlist[i]
-                    resultlist[i] = resultlist[j]
-                    resultlist[j] = temp
-        for i in range(0,playercnt):
-            resulttable.add_row(resultlist[i])
-        print(resulttable)
-        print('')
+for game in gamelist :
+    match_id=game
+    match_find_url = f"https://api.nexon.co.kr/kart/v1.0/matches/{match_id}"
+    match_find_res = requests.get(match_find_url, headers=headers)
+    print('\n'+track_name(match_find_res.json()['trackId']),str(match_id))
+    resulttable = PrettyTable(['Name', 'Kart', ' Rank ', ' Team ', 'Result'])
+    resultlist=[]
+    playercnt=0
+    for team in range(0,2) :
+        for player in range (0,4) :
+            try:
+                resultlist.append([match_find_res.json()['teams'][team]["players"][player]["characterName"],
+                                   kart_name(match_find_res.json()['teams'][team]["players"][player]["kart"]),
+                                   rank(match_find_res.json()['teams'][team]["players"][player]["matchRank"]),
+                                   teamcolor(match_find_res.json()['teams'][team]["players"][player]["characterName"]), result(match_find_res.json()['teams'][team]["players"][player]["matchWin"])])
+                playercnt+=1
+            except:
+                pass
+    for i in range(0,playercnt) :
+        for j in range (i+1,playercnt):
+            if resultlist[i][2]>resultlist[j][2] :
+                temp = resultlist[i]
+                resultlist[i] = resultlist[j]
+                resultlist[j] = temp
+    for i in range(0,playercnt):
+        resulttable.add_row(resultlist[i])
+    print(resulttable)
+    print('')
 
 
 Char_file.close()
